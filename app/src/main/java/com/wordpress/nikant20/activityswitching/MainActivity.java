@@ -2,6 +2,7 @@ package com.wordpress.nikant20.activityswitching;
 
 import android.content.Intent;
 import android.graphics.Camera;
+import android.os.Build;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //Group ID, Item ID, Order of options menu, Title of menu
         menu.add(1,101,1,"Settings");
         menu.add(2,102,3,"Camera");
-        menu.add(3,103,2,"Music");
+        menu.add(3,103,2,"New Activity");
         menu.add(3,104,4,"Contacts");
 
         return super.onCreateOptionsMenu(menu);
@@ -60,10 +61,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE),1);
                 break;
             case 103:
-                startActivityForResult(new Intent(MediaStore.INTENT_ACTION_MUSIC_PLAYER),1);
+                Intent intent = new Intent(MainActivity.this,ViewActivity.class);
+                startActivity(intent);
                 break;
             case 104:
-                startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI),1);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ECLAIR) {
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI),1);
+                }
                 break;
             default:
                 Toast.makeText(getApplicationContext(),"Invalid Response",Toast.LENGTH_SHORT).show();
